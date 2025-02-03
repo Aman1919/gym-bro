@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FaMale, FaFemale } from "react-icons/fa";
 import { GiBodyHeight } from "react-icons/gi";
 import { FaWeight } from "react-icons/fa";
 import { SiStagetimer } from "react-icons/si";
 import { CgNametag } from "react-icons/cg";
+import {useUserDetailsStore} from "../store";
+import { useNavigation } from "expo-router";
 
 const UserDetailsScreen = () => {
   const [step, setStep] = useState(1);
@@ -18,8 +19,10 @@ const UserDetailsScreen = () => {
     exerciseExperience: "",
     equipmentType: "",
     workoutFrequency: "",
+    bmi:""
   });
-
+  const { userDetails, setUserDetails } = useUserDetailsStore();
+  const navigation = useNavigation<any>();
   const handleNext = async () => {
     const currentField = step === 1 ? "gender" : step === 2 ? "name" : step === 3 ? "age" : step === 4 ? "weight" : step === 5 ? "height" : step === 6 ? "exerciseExperience" : step === 7 ? "equipmentType" : "workoutFrequency";
     
@@ -32,7 +35,15 @@ const UserDetailsScreen = () => {
       setStep(step + 1);
     } else {
       try {
-        await AsyncStorage.setItem('@userData', JSON.stringify(userData));
+        // await AsyncStorage.setItem('@userData', JSON.stringify(userData));
+        const weight = parseFloat(userData.weight);
+        const height = parseFloat(userData.height) / 100; // Convert height to meters
+        const bmi = (weight / (height * height)).toFixed(2);
+  
+        const updatedUserData = { ...userData, bmi };
+  
+        setUserDetails(updatedUserData);
+        navigation.navigate("Account");
         Alert.alert("Profile Complete! 🎉");
       } catch (e) {
         Alert.alert("Error", "Failed to save data.");

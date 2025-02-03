@@ -9,6 +9,7 @@ interface UserDetails {
   exerciseExperience: string;
   equipmentType: string;
   workoutFrequency: string;
+  bmi: string;
 }
 
 interface UserDetailsState {
@@ -26,6 +27,7 @@ export const useUserDetailsStore = create<UserDetailsState>((set:any) => ({
     exerciseExperience: "",
     equipmentType: "",
     workoutFrequency: "",
+    bmi: "",
   },
   setUserDetails: (details:any) => set({ userDetails: details }),
 }));

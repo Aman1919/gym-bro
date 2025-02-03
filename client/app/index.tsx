@@ -1,7 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import WelcomeScreen from "./components/getStarted";
-import UserDetailsScreen from "./components/userDetails";
+import WelcomeScreen from "./pages/getStarted";
+import UserDetailsScreen from "./pages/userDetails";
+import Account from "./pages/Account";
 
 const Stack = createStackNavigator();
 
@@ -10,6 +11,7 @@ const App = () => {
       <Stack.Navigator initialRouteName="GetStarted" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="GetStarted" component={WelcomeScreen} />
         <Stack.Screen name="UserDetails" component={UserDetailsScreen} />
+        <Stack.Screen name="Account" component={Account} />
       </Stack.Navigator>
   );
 };
