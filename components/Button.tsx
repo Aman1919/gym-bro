@@ -73,7 +73,7 @@ export default function Button({
       activeOpacity={0.8}
     >
       {loading ? (
-        <ActivityIndicator color={variant === 'outline' ? Theme.colors.accent.BLUE : '#FFFFFF'} />
+        <ActivityIndicator color={variant === 'outline' ? Theme.colors.accent.PURPLE : '#FFFFFF'} />
       ) : (
         <Text style={[getTextStyle(), textStyle]}>{title}</Text>
       )}
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Theme.spacing.lg,
   },
   primaryButton: {
-    backgroundColor: Theme.colors.accent.BLUE,
+    backgroundColor: Theme.colors.accent.PURPLE,
   },
   secondaryButton: {
     backgroundColor: Theme.colors.card,
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   outlineButton: {
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: Theme.colors.accent.BLUE,
+    borderColor: Theme.colors.accent.PURPLE,
   },
   disabledButton: {
     backgroundColor: Theme.colors.border,
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   outlineText: {
-    color: Theme.colors.accent.BLUE,
+    color: Theme.colors.accent.PURPLE,
   },
   disabledText: {
     color: Theme.colors.subtext,

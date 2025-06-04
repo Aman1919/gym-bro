@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
     marginHorizontal: Theme.spacing.xs,
   },
   radioButtonActive: {
-    borderColor: Theme.colors.accent.BLUE,
+    borderColor: Theme.colors.accent.PURPLE,
     backgroundColor: 'rgba(41, 121, 255, 0.1)',
   },
   radioCircle: {
@@ -307,8 +307,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   radioCircleActive: {
-    borderColor: Theme.colors.accent.BLUE,
-    backgroundColor: Theme.colors.accent.BLUE,
+    borderColor: Theme.colors.accent.PURPLE,
+    backgroundColor: Theme.colors.accent.PURPLE,
   },
   radioText: {
     ...Theme.typography.bodySmall,
@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   unitSelector: {
-    backgroundColor: Theme.colors.accent.BLUE,
+    backgroundColor: Theme.colors.accent.PURPLE,
     borderRadius: Theme.borderRadius.md,
     padding: Theme.spacing.md,
     marginLeft: Theme.spacing.sm,
@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
   },
   bmiValue: {
     ...Theme.typography.h1,
-    color: Theme.colors.accent.BLUE,
+    color: Theme.colors.accent.PURPLE,
     marginBottom: Theme.spacing.xs,
   },
   bmiCategory: {

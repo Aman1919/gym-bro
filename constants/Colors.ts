@@ -1,9 +1,9 @@
 const ACCENT = {
-  PURPLE: '#22C55E',   // Vivid purple
-  TEAL:   '#14B8A6',   // Bright teal
-  ORANGE: '#FB923C',   // Soft orange
-  BLUE:   '#2563EB',   // Strong blue
-  GREEN:  '#22C55E',   // Fresh green
+  PURPLE: "#9400FF",   
+  TEAL:   '#14B8A6',   
+  ORANGE: '#FB923C',   
+  BLUE:   '#2563EB',   
+  GREEN:  '#AEEA94',   
 };
 
 const Colors = {

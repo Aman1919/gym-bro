@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   },
   workoutType: {
     ...Theme.typography.bodySmall,
-    color: Theme.colors.accent.BLUE,
+    color: Theme.colors.accent.PURPLE,
     marginTop: Theme.spacing.xs,
   },
   statsCard: {
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   },
   statValue: {
     ...Theme.typography.h2,
-    color: Theme.colors.accent.BLUE,
+    color: Theme.colors.accent.PURPLE,
   },
   statLabel: {
     ...Theme.typography.caption,

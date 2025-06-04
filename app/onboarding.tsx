@@ -20,7 +20,7 @@ export default function OnboardingScreen() {
     weightUnit: 'kg',
     height: 0,
     heightUnit: 'cm',
-    gender: 'other',
+    gender: 'male',
     workoutDaysPerWeek: 0,
     preferredTimeOfDay: '',
   });
@@ -61,6 +61,19 @@ export default function OnboardingScreen() {
     { label: 'Other', value: 'other' },
   ];
 
+  const isStepValid = () => {
+    if (step === 1) {
+      return !!profile.name && !!profile.gender;
+    }
+    if (step === 2) {
+      return !!profile.dateOfBirth && profile.weight > 0 && profile.height > 0;
+    }
+    if (step === 3) {
+      return profile.workoutDaysPerWeek > 0 && !!profile.preferredTimeOfDay;
+    }
+    return false;
+  };
+
   const renderStep1 = () => (
     <Animated.View 
       entering={FadeInUp.duration(500)} 
@@ -70,7 +83,7 @@ export default function OnboardingScreen() {
       <Animated.View entering={FadeInDown.delay(300)}>
         <Dumbbell size={64} color={Theme.colors.accent.PURPLE} />
       </Animated.View>
-      <Text style={styles.title}>Welcome to FitTrack</Text>
+      <Text style={styles.title}>Welcome to Gym Log Diary</Text>
       <Text style={styles.subtitle}>Let's get to know you better</Text>
       
       <View style={styles.inputContainer}>
@@ -245,11 +258,11 @@ export default function OnboardingScreen() {
         <TouchableOpacity
           style={[
             styles.button,
-            ((!profile.name || !profile.gender) && step === 1) && styles.buttonDisabled,
+            !isStepValid() && styles.buttonDisabled,
             { backgroundColor: Theme.colors.accent.PURPLE }
           ]}
           onPress={handleNext}
-          disabled={(!profile.name || !profile.gender) && step === 1}
+          disabled={!isStepValid()}
         >
           <Text style={styles.buttonText}>
             {step === 3 ? "Complete Setup" : "Continue"}

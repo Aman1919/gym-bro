@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: Theme.colors.accent.BLUE,
+    backgroundColor: Theme.colors.accent.PURPLE,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 5,

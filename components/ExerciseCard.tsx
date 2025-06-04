@@ -77,7 +77,7 @@ export default function ExerciseCard({
           {exercise.type === 'set' ? (
             <Dumbbell size={20} color={Theme.colors.accent.GREEN} style={styles.icon} />
           ) : (
-            <Clock size={20} color={Theme.colors.accent.BLUE} style={styles.icon} />
+            <Clock size={20} color={Theme.colors.accent.PURPLE} style={styles.icon} />
           )}
           <Text style={styles.title}>{exercise.name}</Text>
         </View>
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
   },
   addSetButtonText: {
     ...Theme.typography.button,
-    color: Theme.colors.accent.BLUE,
+    color: Theme.colors.accent.PURPLE,
   },
   timerContainer: {
     alignItems: 'center',

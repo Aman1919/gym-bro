@@ -126,7 +126,7 @@ useFocusEffect(
                 {exercise.type === 'set' ? (
                   <Dumbbell size={16} color={Theme.colors.accent.GREEN} style={styles.exerciseIcon} />
                 ) : (
-                  <Clock size={16} color={Theme.colors.accent.BLUE} style={styles.exerciseIcon} />
+                  <Clock size={16} color={Theme.colors.accent.PURPLE} style={styles.exerciseIcon} />
                 )}
                 <Text style={styles.exerciseItemText}>{exercise.name}</Text>
               </View>
@@ -233,7 +233,7 @@ useFocusEffect(
         showBackButton={step === 2}
         rightComponent={step === 2 ? (
           <TouchableOpacity onPress={handleAddExercise} disabled={!currentExercise.name}>
-            <Plus size={24} color={!currentExercise.name ? Theme.colors.subtext : Theme.colors.accent.BLUE} />
+            <Plus size={24} color={!currentExercise.name ? Theme.colors.subtext : Theme.colors.accent.PURPLE} />
           </TouchableOpacity>
         ) : undefined}
       />
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   typeButtonActive: {
-    borderColor: Theme.colors.accent.BLUE,
+    borderColor: Theme.colors.accent.PURPLE,
     backgroundColor: 'rgba(41, 121, 255, 0.1)',
   },
   typeButtonText: {

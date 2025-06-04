@@ -21,7 +21,7 @@ export default function EmptyState({
 }: EmptyStateProps) {
   return (
     <View style={styles.container}>
-      {icon || <Dumbbell size={64} color={Theme.colors.accent.BLUE} style={styles.icon} />}
+      {icon || <Dumbbell size={64} color={Theme.colors.accent.PURPLE} style={styles.icon} />}
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.message}>{message}</Text>
       {actionText && onAction && (

@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   workoutType: {
     ...Theme.typography.bodySmall,
-    color: Theme.colors.accent.BLUE,
+    color: Theme.colors.accent.PURPLE,
     marginTop: Theme.spacing.xs,
   },
   sectionTitle: {

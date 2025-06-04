@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   statValue: {
     ...Theme.typography.h4,
-    color: Theme.colors.accent.BLUE,
+    color: Theme.colors.accent.PURPLE,
   },
   statLabel: {
     ...Theme.typography.caption,
