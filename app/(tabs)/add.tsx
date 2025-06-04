@@ -13,7 +13,6 @@ export default function AddWorkoutScreen() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [workoutTitle, setWorkoutTitle] = useState('');
-  const [workoutType, setWorkoutType] = useState('');
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [currentExercise, setCurrentExercise] = useState<Partial<Exercise>>({
     name: '',
@@ -21,7 +20,7 @@ export default function AddWorkoutScreen() {
   });
 
   const handleNextStep = () => {
-    if (step === 1 && workoutTitle && workoutType) {
+    if (step === 1 && workoutTitle) {
       setStep(2);
     }
   };
@@ -43,11 +42,10 @@ export default function AddWorkoutScreen() {
   };
 
   const handleCreateWorkout = async () => {
-    if (workoutTitle && workoutType && exercises.length > 0) {
+    if (workoutTitle && exercises.length > 0) {
       const newWorkout: Workout = {
         id: generateId(),
         title: workoutTitle,
-        type: workoutType,
         date: new Date().toISOString(),
         exercises: exercises,
         completed: false,
@@ -69,19 +67,11 @@ export default function AddWorkoutScreen() {
         placeholderTextColor={Theme.colors.subtext}
       />
 
-      <Text style={styles.label}>Workout Type</Text>
-      <TextInput
-        style={styles.input}
-        value={workoutType}
-        onChangeText={setWorkoutType}
-        placeholder="E.g., Strength, Cardio, HIIT, etc."
-        placeholderTextColor={Theme.colors.subtext}
-      />
 
       <Button
         title="Next"
         onPress={handleNextStep}
-        disabled={!workoutTitle || !workoutType}
+        disabled={!workoutTitle}
         style={styles.button}
       />
     </View>
@@ -209,6 +199,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.colors.background,
+    paddingTop: Theme.spacing.lg,
   },
   scrollView: {
     flex: 1,

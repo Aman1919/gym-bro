@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useCallback,useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Theme } from '@/constants/Theme';
 import Header from '@/components/Header';
 import EmptyState from '@/components/EmptyState';
 import { Workout } from '@/types';
 import { getCurrentWorkout, completeWorkout } from '@/utils/db';
-import { useRouter } from 'expo-router';
+import { useRouter ,useFocusEffect} from 'expo-router';
 import ExerciseCard from '@/components/ExerciseCard';
 import Button from '@/components/Button';
-import FloatingActionButton from '@/components/FloatingActionButton';
 import { formatDate } from '@/utils/helpers';
 
 export default function HomeScreen() {
@@ -16,10 +15,11 @@ export default function HomeScreen() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    loadWorkout();
-  }, []);
-
+useFocusEffect(
+    useCallback(() => {
+      loadWorkout();
+    }, [])
+  );
   const loadWorkout = async () => {
     setLoading(true);
     const workout = await getCurrentWorkout();
@@ -77,7 +77,6 @@ export default function HomeScreen() {
           actionText="Start Workout"
           onAction={handleAddWorkout}
         />
-        <FloatingActionButton onPress={handleAddWorkout} />
       </View>
     );
   }
@@ -89,7 +88,6 @@ export default function HomeScreen() {
         <View style={styles.headerContainer}>
           <Text style={styles.workoutTitle}>{currentWorkout?.title || ''}</Text>
           <Text style={styles.workoutDate}>{currentWorkout?.date ? formatDate(currentWorkout.date) : ''}</Text>
-          <Text style={styles.workoutType}>{currentWorkout?.type || ''}</Text>
         </View>
 
         <Text style={styles.sectionTitle}>Exercises</Text>
@@ -116,6 +114,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.colors.background,
+    paddingTop: Theme.spacing.lg,
   },
   scrollView: {
     flex: 1,

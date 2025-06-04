@@ -64,7 +64,6 @@ export default function WorkoutDetailScreen() {
     }
     return count;
   }, 0);
-  const completionRate = totalSets > 0 ? Math.round((completedSets / totalSets) * 100) : 0;
 
   return (
     <View style={styles.container}>
@@ -73,7 +72,6 @@ export default function WorkoutDetailScreen() {
         <View style={styles.headerContainer}>
           <Text style={styles.workoutTitle}>{workout.title}</Text>
           <Text style={styles.workoutDate}>{formatDate(workout.date)}</Text>
-          <Text style={styles.workoutType}>{workout.type}</Text>
         </View>
 
         <Card style={styles.statsCard}>
@@ -87,11 +85,7 @@ export default function WorkoutDetailScreen() {
               <Text style={styles.statValue}>{totalSets}</Text>
               <Text style={styles.statLabel}>Sets</Text>
             </View>
-            
-            <View style={styles.statItem}>
-              <Text style={styles.statValue}>{completionRate}%</Text>
-              <Text style={styles.statLabel}>Completion</Text>
-            </View>
+          
           </View>
         </Card>
 

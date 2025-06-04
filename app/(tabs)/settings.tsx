@@ -234,6 +234,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.colors.background,
+    paddingTop: Theme.spacing.lg,
   },
   scrollView: {
     flex: 1,

@@ -42,24 +42,6 @@ export default function WorkoutCard({ workout, onPress }: WorkoutCardProps) {
             </Text>
             <Text style={styles.statLabel}>Sets</Text>
           </View>
-          
-          <View style={styles.statItem}>
-            <Text style={styles.statValue}>
-              {Math.round(workout.exercises.reduce((total, exercise) => {
-                if (exercise.type === 'set' && exercise.sets) {
-                  const completedSets = exercise.sets.filter(set => set.completed);
-                  return total + completedSets.length;
-                }
-                return total;
-              }, 0) * 100 / Math.max(1, workout.exercises.reduce((total, exercise) => {
-                if (exercise.type === 'set' && exercise.sets) {
-                  return total + exercise.sets.length;
-                }
-                return total;
-              }, 0)))}%
-            </Text>
-            <Text style={styles.statLabel}>Completed</Text>
-          </View>
         </View>
         
         <View style={styles.exercises}>

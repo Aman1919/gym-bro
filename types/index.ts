@@ -30,7 +30,6 @@ export type Set = {
 export type Workout = {
   id: string;
   title: string;
-  type: string;
   date: string;
   exercises: Exercise[];
   completed: boolean;

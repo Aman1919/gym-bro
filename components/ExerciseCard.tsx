@@ -96,16 +96,16 @@ export default function ExerciseCard({
           {exercise.type === 'set' && exercise.sets && (
             <>
               <View style={styles.setsHeader}>
-                <Text style={styles.setsHeaderText}>Set</Text>
-                <Text style={styles.setsHeaderText}>Weight</Text>
-                <Text style={styles.setsHeaderText}>Reps</Text>
-                {!readOnly && <Text style={styles.setsHeaderText}>Done</Text>}
+                <Text style={[styles.setsHeaderText, styles.colSet]}>Set</Text>
+                <Text style={[styles.setsHeaderText, styles.colWeight]}>Weight</Text>
+                <Text style={[styles.setsHeaderText, styles.colReps]}>Reps</Text>
+                {!readOnly && <Text style={[styles.setsHeaderText, styles.colDone]}>Done</Text>}
               </View>
               {exercise.sets.map((set, index) => (
                 <View key={set.id} style={styles.setRow}>
-                  <Text style={styles.setText}>{index + 1}</Text>
+                  <Text style={[styles.setText, styles.colSet]}>{index + 1}</Text>
                   
-                  <View style={styles.weightContainer}>
+                  <View style={[styles.weightContainer, styles.colWeight]}>
                     {!readOnly ? (
                       <>
                         <TouchableOpacity 
@@ -127,7 +127,7 @@ export default function ExerciseCard({
                     )}
                   </View>
                   
-                  <View style={styles.repsContainer}>
+                  <View style={[styles.repsContainer, styles.colReps]}>
                     {!readOnly ? (
                       <>
                         <TouchableOpacity 
@@ -153,6 +153,7 @@ export default function ExerciseCard({
                     <TouchableOpacity
                       style={[
                         styles.checkButton,
+                        styles.colDone,
                         set.completed ? styles.completedButton : {}
                       ]}
                       onPress={() => handleUpdateSet(set.id, 'completed', !set.completed)}
@@ -230,43 +231,64 @@ const styles = StyleSheet.create({
   content: {
     marginTop: Theme.spacing.md,
   },
+  counterButtonText:{
+    ...Theme.typography.body,
+    color: Theme.colors.text,
+  },
   setsHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingBottom: Theme.spacing.sm,
+    alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: Theme.colors.border,
     marginBottom: Theme.spacing.sm,
+    paddingBottom: Theme.spacing.sm,
   },
   setsHeaderText: {
     ...Theme.typography.bodySmall,
     color: Theme.colors.subtext,
-    flex: 1,
     textAlign: 'center',
   },
   setRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: Theme.spacing.sm,
+    minHeight: 40,
   },
   setText: {
     ...Theme.typography.body,
     color: Theme.colors.text,
     textAlign: 'center',
+  },
+  // Column widths
+  colSet: {
+    flex: 0.7,
+    minWidth: 36,
+  },
+  colWeight: {
+    flex: 2,
+    minWidth: 100,
+  },
+  colReps: {
+    flex: 2,
+    minWidth: 100,
+  },
+  colDone: {
     flex: 1,
+    minWidth: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   weightContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    flex: 1,
+    justifyContent: 'center',
+    gap: 8, // add gap for better spacing (if supported)
   },
   repsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    flex: 1,
+    justifyContent: 'center',
+    gap: 8,
   },
   counterButton: {
     width: 28,
@@ -275,10 +297,7 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.colors.border,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  counterButtonText: {
-    ...Theme.typography.button,
-    color: Theme.colors.text,
+    marginHorizontal: 4, // add horizontal margin for spacing
   },
   checkButton: {
     width: 32,
