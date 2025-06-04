@@ -49,7 +49,7 @@ export default function RootLayout() {
     <GestureHandlerRootView style={styles.container}>
       <Stack screenOptions={{ headerShown: false }}>
         {!isProfileComplete ? (
-          <Stack.Screen name="onboarding\" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
         ) : (
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         )}

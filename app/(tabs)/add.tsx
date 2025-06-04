@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { Theme } from '@/constants/Theme';
 import Header from '@/components/Header';
 import Button from '@/components/Button';
 import { Exercise, Workout } from '@/types';
-import { saveCurrentWorkout } from '@/utils/db';
+import { getCurrentWorkout, saveCurrentWorkout } from '@/utils/db';
 import { generateId } from '@/utils/helpers';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { Clock, Dumbbell, Plus } from 'lucide-react-native';
 
 export default function AddWorkoutScreen() {
   const router = useRouter();
   const [step, setStep] = useState(1);
+  const [currentWorkout, setCurrentWorkout] = useState<Workout | null>(null);
+  const [loading,setLoading] = useState(false);
   const [workoutTitle, setWorkoutTitle] = useState('');
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [currentExercise, setCurrentExercise] = useState<Partial<Exercise>>({
@@ -19,13 +21,35 @@ export default function AddWorkoutScreen() {
     type: 'set',
   });
 
+useFocusEffect(
+    useCallback(() => {
+      loadWorkout();
+    }, [])
+  );
+  const loadWorkout = async () => {
+    setLoading(true);
+    const workout = await getCurrentWorkout();
+    setCurrentWorkout(workout);
+    if(workout){
+      setStep(2);
+      setWorkoutTitle(workout.title)
+      setExercises(workout.exercises);
+
+    }else{
+      setStep(1);
+    }
+    setLoading(false);
+  };
+
+
   const handleNextStep = () => {
     if (step === 1 && workoutTitle) {
       setStep(2);
     }
   };
 
-  const handleAddExercise = () => {
+
+  const handleAddExercise = async () => {
     if (currentExercise.name) {
       const newExercise: Exercise = {
         id: generateId(),
@@ -36,13 +60,24 @@ export default function AddWorkoutScreen() {
         notes: currentExercise.notes,
       };
 
-      setExercises([...exercises, newExercise]);
+      const updatedExercises = [...exercises, newExercise];
+      setExercises(updatedExercises);
       setCurrentExercise({ name: '', type: 'set' });
+
+      // If editing an existing workout, update it in storage
+      if (currentWorkout) {
+        const updatedWorkout = {
+          ...currentWorkout,
+          exercises: updatedExercises,
+        };
+        await saveCurrentWorkout(updatedWorkout);
+        setCurrentWorkout(updatedWorkout);
+      }
     }
   };
 
   const handleCreateWorkout = async () => {
-    if (workoutTitle && exercises.length > 0) {
+    if (workoutTitle && exercises.length > 0 && !currentWorkout) {
       const newWorkout: Workout = {
         id: generateId(),
         title: workoutTitle,
@@ -55,6 +90,8 @@ export default function AddWorkoutScreen() {
       router.replace('/');
     }
   };
+ 
+
 
   const renderStep1 = () => (
     <View style={styles.formContainer}>
@@ -101,7 +138,7 @@ export default function AddWorkoutScreen() {
                 }}
                 style={styles.removeButton}
               >
-                <Text style={styles.removeButtonText}>×</Text>
+                <Text style={styles.removeButton}>×</Text>
               </TouchableOpacity>
             </View>
           ))}
@@ -167,15 +204,27 @@ export default function AddWorkoutScreen() {
         />
       </View>
 
-      <Button
+      {!currentWorkout&&<Button
         title="Create Workout"
         onPress={handleCreateWorkout}
         disabled={exercises.length === 0}
         variant="success"
         style={styles.createButton}
-      />
+      />}
     </View>
   );
+
+  if (loading) {
+      return (
+        <View style={styles.container}>
+          <Header title="Today's Workout" />
+          <View style={styles.loadingContainer}>
+            <Text style={styles.loadingText}>Loading workout...</Text>
+          </View>
+        </View>
+      );
+    }
+
 
   return (
     <View style={styles.container}>
@@ -293,21 +342,20 @@ const styles = StyleSheet.create({
   },
   removeButton: {
     width: 28,
-    height: 28,
-    borderRadius: Theme.borderRadius.full,
-    backgroundColor: Theme.colors.border,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  removeButtonText: {
-    ...Theme.typography.h4,
-    color: Theme.colors.text,
-    lineHeight: 26,
   },
   addExerciseForm: {
     marginTop: Theme.spacing.lg,
   },
   createButton: {
     marginTop: Theme.spacing.xl,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    ...Theme.typography.body,
+    color: Theme.colors.subtext,
   },
 });

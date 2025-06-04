@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback ,useState } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { Theme } from '@/constants/Theme';
 import Header from '@/components/Header';
@@ -6,17 +6,17 @@ import EmptyState from '@/components/EmptyState';
 import { Workout } from '@/types';
 import { getWorkouts } from '@/utils/db';
 import WorkoutCard from '@/components/WorkoutCard';
-import { useRouter } from 'expo-router';
+import { useRouter ,useFocusEffect} from 'expo-router';
 
 export default function HistoryScreen() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-
-  useEffect(() => {
-    loadWorkouts();
-  }, []);
-
+useFocusEffect(
+    useCallback(() => {
+      loadWorkouts();
+    }, [])
+  );
   const loadWorkouts = async () => {
     setLoading(true);
     const loadedWorkouts = await getWorkouts();
