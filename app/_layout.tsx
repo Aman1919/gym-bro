@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useFrameworkReady } from '@/hooks/useFrameworkReady';
 import { useFonts, Inter_400Regular, Inter_500Medium, Inter_700Bold } from '@expo-google-fonts/inter';
 import { SplashScreen } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { StyleSheet, View } from 'react-native';
-import { setupDatabase } from '@/utils/db';
-import { getUserProfile } from '@/utils/db';
+import { StyleSheet } from 'react-native';
+import { setupDatabase, getUserProfile } from '@/utils/db';
 
-// Prevent splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   useFrameworkReady();
+  const router = useRouter();
   const [isProfileComplete, setIsProfileComplete] = useState<boolean | null>(null);
 
   const [fontsLoaded, fontError] = useFonts({
@@ -24,23 +23,25 @@ export default function RootLayout() {
 
   useEffect(() => {
     async function initialize() {
-      // Initialize database
       await setupDatabase();
-      
-      // Check if user profile exists
       const profile = await getUserProfile();
-      setIsProfileComplete(!!profile?.name);
-      
-      // Hide splash screen once fonts are loaded and profile check is complete
-      if (fontsLoaded || fontError) {
-        SplashScreen.hideAsync();
-      }
+      setIsProfileComplete(!!(profile && profile.name !== ''));
     }
 
     initialize();
-  }, [fontsLoaded, fontError]);
+  }, []);
 
-  // Return null to keep splash screen visible while fonts load
+  useEffect(() => {
+    if ((fontsLoaded || fontError) && isProfileComplete !== null) {
+      SplashScreen.hideAsync();
+      if (!isProfileComplete) {
+        router.replace('/onboarding');
+      } else {
+        router.replace('/(tabs)');
+      }
+    }
+  }, [fontsLoaded, fontError, isProfileComplete]);
+
   if (!fontsLoaded && !fontError) {
     return null;
   }
@@ -48,11 +49,8 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={styles.container}>
       <Stack screenOptions={{ headerShown: false }}>
-        {!isProfileComplete ? (
-          <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
-        ) : (
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        )}
+        <Stack.Screen name="onboarding" />
+        <Stack.Screen name="(tabs)" />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="light" />

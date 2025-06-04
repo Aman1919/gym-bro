@@ -24,7 +24,7 @@ export default function OnboardingScreen() {
     workoutDaysPerWeek: 0,
     preferredTimeOfDay: '',
   });
-
+ console.log('Initial profile state:', profile);
   const handleDateChange = (event: any, selectedDate?: Date) => {
     setShowDatePicker(false);
     if (selectedDate) {
@@ -55,6 +55,12 @@ export default function OnboardingScreen() {
     router.replace('/(tabs)');
   };
 
+  const genderOptions = [
+    { label: 'Male', value: 'male' },
+    { label: 'Female', value: 'female' },
+    { label: 'Other', value: 'other' },
+  ];
+
   const renderStep1 = () => (
     <Animated.View 
       entering={FadeInUp.duration(500)} 
@@ -77,6 +83,29 @@ export default function OnboardingScreen() {
           placeholderTextColor={Theme.colors.subtext}
           autoFocus={Platform.OS !== 'web'}
         />
+
+        <Text style={styles.label}>Gender</Text>
+        <View style={styles.genderRow}>
+          {genderOptions.map((option) => (
+            <TouchableOpacity
+              key={option.value}
+              style={[
+                styles.genderButton,
+                profile.gender === option.value && styles.genderButtonSelected,
+              ]}
+              onPress={() => setProfile({ ...profile, gender: option.value as 'male' | 'female' | 'other' })}
+            >
+              <Text
+                style={[
+                  styles.genderButtonText,
+                  profile.gender === option.value && styles.genderButtonTextSelected,
+                ]}
+              >
+                {option.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
     </Animated.View>
   );
@@ -216,11 +245,11 @@ export default function OnboardingScreen() {
         <TouchableOpacity
           style={[
             styles.button,
-            (!profile.name && step === 1) && styles.buttonDisabled,
+            ((!profile.name || !profile.gender) && step === 1) && styles.buttonDisabled,
             { backgroundColor: Theme.colors.accent.PURPLE }
           ]}
           onPress={handleNext}
-          disabled={!profile.name && step === 1}
+          disabled={(!profile.name || !profile.gender) && step === 1}
         >
           <Text style={styles.buttonText}>
             {step === 3 ? "Complete Setup" : "Continue"}
@@ -333,5 +362,32 @@ const styles = StyleSheet.create({
     ...Theme.typography.button,
     color: '#FFFFFF',
     marginRight: Theme.spacing.sm,
+  },
+  genderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: Theme.spacing.sm,
+  },
+  genderButton: {
+    flex: 1,
+    padding: Theme.spacing.md,
+    marginHorizontal: Theme.spacing.xs,
+    borderRadius: Theme.borderRadius.md,
+    backgroundColor: Theme.colors.card,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Theme.colors.border,
+  },
+  genderButtonSelected: {
+    backgroundColor: Theme.colors.accent.PURPLE,
+    borderColor: Theme.colors.accent.PURPLE,
+  },
+  genderButtonText: {
+    ...Theme.typography.body,
+    color: Theme.colors.text,
+  },
+  genderButtonTextSelected: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
